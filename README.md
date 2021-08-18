@@ -57,8 +57,3 @@ console.log(lotto.rest) // => [0, 2, 3, 1]
 ## Error processing
 
 If you pass an invalid option to the constructor or the `#put()` method an instance of `LottotronError` will thrown.
-
-
-<hr>
-
-The more information looks on the [documentation](https://spomni.github.io/lottotron).
