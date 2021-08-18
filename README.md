@@ -35,9 +35,30 @@ The property `#rest` contains all numbers that were not returned from the method
 
     let notReturnedNumbers = lotto.rest;
 
+If you get a number from the `#next()` method and you want to use them later call the `put(number)` method. This method add the passed number to the rest of numbers.
+
+Be careful because the `#put()` method throws an error if the passed value is greater than `#max` value or it is exists in the rest of numbers yet.
+
+```javascript
+const lotto = new Lottotron(3)
+
+const number = lotto.next()
+
+console.log(number) // => 1
+console.log(lotto.rest) // => [0, 2, 3]
+
+try { lotto.put(2) } catch () { console.log('error') } // => 'error'
+try { lotto.put(4) } catch () { console.log('error') } // => 'error'
+
+lotto.put(number)
+console.log(lotto.rest) // => [0, 2, 3, 1]
+```
+
+Use the `#put(number)` method if you want to get a returned number later. 
+
 ## Error processing
 
-If you pass an invalid option to the constructor it throws a `LottotronError` instance with error description.
+If you pass an invalid option to the constructor or the `#put()` method an instance of `LottotronError` will thrown.
 
 
 <hr>
