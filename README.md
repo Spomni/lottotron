@@ -54,8 +54,6 @@ lotto.put(number)
 console.log(lotto.rest) // => [0, 2, 3, 1]
 ```
 
-Use the `#put(number)` method if you want to get a returned number later. 
-
 ## Error processing
 
 If you pass an invalid option to the constructor or the `#put()` method an instance of `LottotronError` will thrown.
