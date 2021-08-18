@@ -31,6 +31,7 @@ const {
   NUMBER_IS_NOT_INTEGER,
   NUMBER_IS_NOT_POSITIVE,
   NUMBER_IS_NOT_NUMBER,
+  NUMBER_IS_GREATER_THAN_MAX,
   
   NUMBER_IS_ALREADY_EXISTS,
 
@@ -313,10 +314,23 @@ describe('class Lottotron', () => {
         NUMBER_IS_ALREADY_EXISTS,
       )
     })
+    
+    it('Should throw an error if the argument value is greater than max number.', () => {
+      const number = 9
+      const max = 7
+      
+      const lotto = new Lottotron(max)
+      
+      assert.throws(
+        () => lotto.put(number),
+        LottotronError,
+        NUMBER_IS_GREATER_THAN_MAX
+      )
+    })
 
     it('Should add the argument value to the rest of numbers.', () => {
-      const number = 7
       const lotto = new Lottotron(5)
+      const number = lotto.next()
       lotto.put(number)
       assert.include(lotto.rest, number)
     })
