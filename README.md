@@ -13,25 +13,25 @@ Add a constructor into your script.
 
     const Lottotron = require('@spomni/lottotron')
 
-Create an instance of the class `Lottotron( maxNumber )` passing the max value as option.
+Create an instance of the class `Lottotron( max )` passing the max value as option.
 
     let lotto = new Lottotron( 9 );
 
-Call the method `#getNumber()` to get the next number.
+Call the method `#next()` to get the next number.
 
-    let number = lotto.getNumber();
+    let number = lotto.next();
 
-The method `#getNumber()` returns the next number until all numbers of the inteval are returned. It returns `null` when all numbers have been returned.
+The method `#next()` returns the next number until all numbers of the inteval are returned. It returns `null` when all numbers have been returned.
 
 If you need to get numbers again use the method `#reload()`. It rallback an onstance to the inital state.
 
     lotto.reload();
 
-The property `#maxNumber` contains a max number of the interval.
+The property `#max` contains a max number of the interval.
 
-    let maxNumber = lotto.maxNumber;
+    let max = lotto.max;
 
-The property `#restNumbers` contains all numbers that were not returned from the method `#getNumber()`.
+The property `#restNumbers` contains all numbers that were not returned from the method `#next()`.
 
     let notReturnedNumbers = lotto.restNumbers;
 
