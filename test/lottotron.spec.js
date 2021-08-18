@@ -162,11 +162,11 @@ describe('class Lottotron', () => {
     )
   })
 
-  describe('#restNumbers', () => {
+  describe('#rest', () => {
     it(`Should be an array.`,
       () => {
-        const { restNumbers } = new Lottotron(32)
-        assert.isArray(restNumbers)
+        const { rest } = new Lottotron(32)
+        assert.isArray(rest)
       }
     )
 
@@ -179,9 +179,9 @@ describe('class Lottotron', () => {
           .map((value, index) => index)
 
         for (let i = 0; i <= maxNumber; i++) {
-          const { restNumbers } = lotto
+          const { rest } = lotto
 
-          assert.deepEqual(restNumbers, remainder)
+          assert.deepEqual(rest, remainder)
 
           const number = lotto.next()
           const index = remainder.findIndex((value) => value === number)
@@ -199,7 +199,7 @@ describe('class Lottotron', () => {
         while (counter < maxNumber + 7) {
           lotto.next()
           if (counter > maxNumber + 1) {
-            assert.isEmpty(lotto.restNumbers)
+            assert.isEmpty(lotto.rest)
           }
           counter++
         }
@@ -210,9 +210,9 @@ describe('class Lottotron', () => {
       () => {
         const lotto = new Lottotron(3)
 
-        const oldValue = lotto.restNumbers
-        lotto.restNumbers = Symbol('newValue')
-        assert(lotto.restNumbers !== oldValue)
+        const oldValue = lotto.rest
+        lotto.rest = Symbol('newValue')
+        assert(lotto.rest !== oldValue)
       }
     )
 
@@ -220,33 +220,33 @@ describe('class Lottotron', () => {
       () => {
         const lotto = new Lottotron(3)
 
-        const oldValue = lotto.restNumbers
-        lotto.restNumbers = Symbol('newValue')
-        assert.deepEqual(lotto.restNumbers, oldValue)
+        const oldValue = lotto.rest
+        lotto.rest = Symbol('newValue')
+        assert.deepEqual(lotto.rest, oldValue)
       }
     )
 
     it(`Should return the same result if the array returned in the previous call is changed.`,
       () => {
         const lotto = new Lottotron(13)
-        const { restNumbers } = lotto
-        const restNumbersCopy = restNumbers.map((item) => item)
-        restNumbers[6] = Symbol('someValue')
-        assert.deepEqual(lotto.restNumbers, restNumbersCopy)
+        const { rest } = lotto
+        const restCopy = rest.map((item) => item)
+        rest[6] = Symbol('someValue')
+        assert.deepEqual(lotto.rest, restCopy)
       }
     )
   })
 
   describe('#reload()', () => {
-    it(`The #restNumbers array should contain all numbers after that the #reload()was called.`,
+    it(`The #rest array should contain all numbers after that the #reload()was called.`,
       () => {
         const maxNumber = 9
         const lotto = new Lottotron(maxNumber)
-        const expectedRestNumbers = getNaturalNumbersTo(maxNumber)
+        const expectedRest = getNaturalNumbersTo(maxNumber)
 
-        while (lotto.restNumbers.length > 2) lotto.next()
+        while (lotto.rest.length > 2) lotto.next()
         lotto.reload()
-        assert.deepEqual(lotto.restNumbers, expectedRestNumbers)
+        assert.deepEqual(lotto.rest, expectedRest)
       }
     )
 
@@ -255,7 +255,7 @@ describe('class Lottotron', () => {
         const maxNumber = 17
         const lotto = new Lottotron(maxNumber)
 
-        while (lotto.restNumbers.length > 0) lotto.next()
+        while (lotto.rest.length > 0) lotto.next()
         lotto.reload()
 
         assert(

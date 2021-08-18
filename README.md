@@ -31,9 +31,9 @@ The property `#max` contains a max number of the interval.
 
     let max = lotto.max;
 
-The property `#restNumbers` contains all numbers that were not returned from the method `#next()`.
+The property `#rest` contains all numbers that were not returned from the method `#next()`.
 
-    let notReturnedNumbers = lotto.restNumbers;
+    let notReturnedNumbers = lotto.rest;
 
 ## Error processing
 
