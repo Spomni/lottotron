@@ -266,4 +266,10 @@ describe('class Lottotron', () => {
       }
     )
   })
+  
+  describe('#put()', () => {
+    it('Should throw an error if the argument is not positive integer.')
+    it('Should throw an error if the rest of numbers already contains the argument value.')
+    it('Should add the argument value to the rest of numbers.')
+  })
 })
