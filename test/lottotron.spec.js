@@ -77,28 +77,28 @@ describe('class Lottotron', () => {
     )
   })
 
-  describe('#maxNumber', () => {
+  describe('#max', () => {
     it(`Should be a positive integer`,
       () => {
-        const { maxNumber } = new Lottotron(3.6)
-        assert(Number.isInteger(maxNumber))
+        const { max } = new Lottotron(3.6)
+        assert(Number.isInteger(max))
       }
     )
 
-    it(`Should be equal to the maxNumber constructor option if one passed with integer value.`,
+    it(`Should be equal to the "max" constructor option if one passed with integer value.`,
       () => {
         const value = 5
-        const { maxNumber } = new Lottotron(value)
-        assert.strictEqual(maxNumber, value)
+        const { max } = new Lottotron(value)
+        assert.strictEqual(max, value)
       }
     )
 
-    it(`Should be equal the rounded down maxNumber constructor option if one passed with a float value.`,
+    it(`Should be equal the rounded down "max" constructor option if one passed with a float value.`,
       () => {
         const value = 93.4
         const flooredValue = Math.floor(value)
-        const { maxNumber } = new Lottotron(value)
-        assert.strictEqual(maxNumber, flooredValue)
+        const { max } = new Lottotron(value)
+        assert.strictEqual(max, flooredValue)
       }
     )
 
@@ -106,34 +106,34 @@ describe('class Lottotron', () => {
       () => {
         const initalValue = 3
         const lotto = new Lottotron(initalValue)
-        lotto.maxNumber = 7
-        assert.equal(lotto.maxNumber, initalValue)
+        lotto.max = 7
+        assert.equal(lotto.max, initalValue)
       }
     )
   })
 
   describe('#getNumber()', () => {
-    it(`Should return all numbers of the interval in (maxNumber + 1) method calls.`,
+    it(`Should return all numbers of the interval in (max + 1) method calls.`,
       () => {
         const lotto = new Lottotron(8)
-        const { maxNumber } = lotto
+        const { max } = lotto
 
         assert(
-          Array(maxNumber + 1).fill(null)
+          Array(max + 1).fill(null)
             .map(() => lotto.getNumber())
             .every((number, index, numberList) => numberList.includes(index))
         )
       }
     )
 
-    it(`Should return null if method is called (maxNumber + 2) or more times. `,
+    it(`Should return null if method is called (max + 2) or more times. `,
       () => {
         const lotto = new Lottotron(6)
-        const { maxNumber } = lotto
+        const { max } = lotto
         let counter = 0
 
-        while (counter < maxNumber + 5) {
-          if (counter <= maxNumber + 1) {
+        while (counter < max + 5) {
+          if (counter <= max + 1) {
             lotto.getNumber()
           } else {
             assert.isNull(lotto.getNumber())
