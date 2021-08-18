@@ -22,9 +22,19 @@ const arrayOfTypes = [
 ]
 
 const {
+
   MAX_IS_NOT_NUMBER,
   MAX_LOWER_ZERO,
-  MAX_IS_NON_FINITE
+  MAX_IS_NON_FINITE,
+  
+  NUMBER_IS_NOT_FINITE,
+  NUMBER_IS_NOT_INTEGER,
+  NUMBER_IS_NOT_POSITIVE,
+  NUMBER_IS_NOT_NUMBER,
+  NUMBER_IS_GREATER_THAN_MAX,
+  
+  NUMBER_IS_ALREADY_EXISTS,
+
 } = LottotronError.REASON_
 
 const isNumber = (value) => typeof(value) === 'number'
@@ -265,5 +275,64 @@ describe('class Lottotron', () => {
         )
       }
     )
+  })
+  
+  describe('#put()', () => {
+    it('Should throw an error if the argument is not positive integer.', () => {
+      const lotto = new Lottotron(12)
+      
+      assert.throws(
+        () => lotto.put(null),
+        LottotronError,
+        NUMBER_IS_NOT_NUMBER
+      );
+      
+      assert.throws(
+        () => lotto.put(Infinity),
+        LottotronError,
+        NUMBER_IS_NOT_FINITE
+      );
+      
+      assert.throws(
+        () => lotto.put(-5),
+        LottotronError,
+        NUMBER_IS_NOT_POSITIVE
+      );
+      
+      assert.throws(
+        () => lotto.put(5.7),
+        LottotronError,
+        NUMBER_IS_NOT_INTEGER
+      );
+    })
+    
+    it('Should throw an error if the rest of numbers already contains the argument value.', () => {
+      const lotto = new Lottotron(3)
+      assert.throws(
+        () => lotto.put(2),
+        LottotronError,
+        NUMBER_IS_ALREADY_EXISTS,
+      )
+    })
+    
+    it('Should throw an error if the argument value is greater than max number.', () => {
+      const number = 9
+      const max = 7
+      
+      const lotto = new Lottotron(max)
+      
+      assert.throws(
+        () => lotto.put(number),
+        LottotronError,
+        NUMBER_IS_GREATER_THAN_MAX
+      )
+    })
+
+    it('Should add the argument value to the rest of numbers.', () => {
+      const lotto = new Lottotron(5)
+      const number = lotto.next()
+      lotto.put(number)
+      assert.include(lotto.rest, number)
+    })
   })
 })
