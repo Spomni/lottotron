@@ -22,9 +22,9 @@ const arrayOfTypes = [
 ]
 
 const {
-  MAX_NUMBER_IS_NOT_NUMBER,
-  MAX_NUMBER_LOWER_ZERO,
-  MAX_NUMBER_IS_NON_FINITE
+  MAX_IS_NOT_NUMBER,
+  MAX_LOWER_ZERO,
+  MAX_IS_NON_FINITE
 } = LottotronError.REASON_
 
 const isNumber = (value) => typeof(value) === 'number'
@@ -36,20 +36,20 @@ const getNaturalNumbersTo = (maxNumber) => {
 }
 
 describe('class Lottotron', () => {
-  describe('constructor(maxNumber)', () => {
-    it('Should throw an error if the maxNumber option is not a number.',
+  describe('constructor(max)', () => {
+    it('Should throw an error if the "max" option is not a number.',
       () => arrayOfTypes.forEach((typeValue) => {
         if (isNumber(typeValue)) return
 
         assert.throws(
           () => new Lottotron(typeValue),
           LottotronError,
-          MAX_NUMBER_IS_NOT_NUMBER
+          MAX_IS_NOT_NUMBER
         )
       })
     )
 
-    it(`Should throw an error if the maxNumber option is a non-finite number.`,
+    it(`Should throw an error if the "max" option is a non-finite number.`,
       () => arrayOfTypes.forEach((typeValue) => {
         if (!isNumber(typeValue)) return
         if (Number.isFinite(typeValue)) return
@@ -57,22 +57,22 @@ describe('class Lottotron', () => {
         assert.throws(
           () => new Lottotron(typeValue),
           LottotronError,
-          MAX_NUMBER_IS_NON_FINITE
+          MAX_IS_NON_FINITE
         )
       })
     )
 
-    it('Should throw an error if the maxNumber option less than 0.',
+    it('Should throw an error if the "max" option less than 0.',
       () => {
         assert.throws(
           () => new Lottotron(-5),
           LottotronError,
-          MAX_NUMBER_LOWER_ZERO
+          MAX_LOWER_ZERO
         )
       }
     )
 
-    it('Should return a Lottotron instance if the maxNumber option has a correct value.',
+    it('Should return a Lottotron instance if the "max" option has a correct value.',
       () => assert.instanceOf(new Lottotron(3), Lottotron)
     )
   })
