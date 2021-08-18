@@ -1,6 +1,6 @@
 const assert = require('chai').assert
 
-const Lottotron = require('..')
+const Lottotron = require('../lib/Lottotron')
 const LottotronError = require('../lib/LottotronError')
 
 const arrayOfTypes = [
@@ -22,9 +22,9 @@ const arrayOfTypes = [
 ]
 
 const {
-  MAX_NUMBER_IS_NOT_NUMBER,
-  MAX_NUMBER_LOWER_ZERO,
-  MAX_NUMBER_IS_NON_FINITE
+  MAX_IS_NOT_NUMBER,
+  MAX_LOWER_ZERO,
+  MAX_IS_NON_FINITE
 } = LottotronError.REASON_
 
 const isNumber = (value) => typeof(value) === 'number'
@@ -36,20 +36,20 @@ const getNaturalNumbersTo = (maxNumber) => {
 }
 
 describe('class Lottotron', () => {
-  describe('constructor(maxNumber)', () => {
-    it('Should throw an error if the maxNumber option is not a number.',
+  describe('constructor(max)', () => {
+    it('Should throw an error if the "max" option is not a number.',
       () => arrayOfTypes.forEach((typeValue) => {
         if (isNumber(typeValue)) return
 
         assert.throws(
           () => new Lottotron(typeValue),
           LottotronError,
-          MAX_NUMBER_IS_NOT_NUMBER
+          MAX_IS_NOT_NUMBER
         )
       })
     )
 
-    it(`Should throw an error if the maxNumber option is a non-finite number.`,
+    it(`Should throw an error if the "max" option is a non-finite number.`,
       () => arrayOfTypes.forEach((typeValue) => {
         if (!isNumber(typeValue)) return
         if (Number.isFinite(typeValue)) return
@@ -57,48 +57,48 @@ describe('class Lottotron', () => {
         assert.throws(
           () => new Lottotron(typeValue),
           LottotronError,
-          MAX_NUMBER_IS_NON_FINITE
+          MAX_IS_NON_FINITE
         )
       })
     )
 
-    it('Should throw an error if the maxNumber option less than 0.',
+    it('Should throw an error if the "max" option less than 0.',
       () => {
         assert.throws(
           () => new Lottotron(-5),
           LottotronError,
-          MAX_NUMBER_LOWER_ZERO
+          MAX_LOWER_ZERO
         )
       }
     )
 
-    it('Should return a Lottotron instance if the maxNumber option has a correct value.',
+    it('Should return a Lottotron instance if the "max" option has a correct value.',
       () => assert.instanceOf(new Lottotron(3), Lottotron)
     )
   })
 
-  describe('#maxNumber', () => {
+  describe('#max', () => {
     it(`Should be a positive integer`,
       () => {
-        const { maxNumber } = new Lottotron(3.6)
-        assert(Number.isInteger(maxNumber))
+        const { max } = new Lottotron(3.6)
+        assert(Number.isInteger(max))
       }
     )
 
-    it(`Should be equal to the maxNumber constructor option if one passed with integer value.`,
+    it(`Should be equal to the "max" constructor option if one passed with integer value.`,
       () => {
         const value = 5
-        const { maxNumber } = new Lottotron(value)
-        assert.strictEqual(maxNumber, value)
+        const { max } = new Lottotron(value)
+        assert.strictEqual(max, value)
       }
     )
 
-    it(`Should be equal the rounded down maxNumber constructor option if one passed with a float value.`,
+    it(`Should be equal the rounded down "max" constructor option if one passed with a float value.`,
       () => {
         const value = 93.4
         const flooredValue = Math.floor(value)
-        const { maxNumber } = new Lottotron(value)
-        assert.strictEqual(maxNumber, flooredValue)
+        const { max } = new Lottotron(value)
+        assert.strictEqual(max, flooredValue)
       }
     )
 
@@ -106,37 +106,37 @@ describe('class Lottotron', () => {
       () => {
         const initalValue = 3
         const lotto = new Lottotron(initalValue)
-        lotto.maxNumber = 7
-        assert.equal(lotto.maxNumber, initalValue)
+        lotto.max = 7
+        assert.equal(lotto.max, initalValue)
       }
     )
   })
 
-  describe('#getNumber()', () => {
-    it(`Should return all numbers of the interval in (maxNumber + 1) method calls.`,
+  describe('#next()', () => {
+    it(`Should return all numbers of the interval in (max + 1) method calls.`,
       () => {
         const lotto = new Lottotron(8)
-        const { maxNumber } = lotto
+        const { max } = lotto
 
         assert(
-          Array(maxNumber + 1).fill(null)
-            .map(() => lotto.getNumber())
+          Array(max + 1).fill(null)
+            .map(() => lotto.next())
             .every((number, index, numberList) => numberList.includes(index))
         )
       }
     )
 
-    it(`Should return null if method is called (maxNumber + 2) or more times. `,
+    it(`Should return null if method is called (max + 2) or more times. `,
       () => {
         const lotto = new Lottotron(6)
-        const { maxNumber } = lotto
+        const { max } = lotto
         let counter = 0
 
-        while (counter < maxNumber + 5) {
-          if (counter <= maxNumber + 1) {
-            lotto.getNumber()
+        while (counter < max + 5) {
+          if (counter <= max + 1) {
+            lotto.next()
           } else {
-            assert.isNull(lotto.getNumber())
+            assert.isNull(lotto.next())
           }
           counter++
         }
@@ -150,10 +150,10 @@ describe('class Lottotron', () => {
         const lotto2 = new Lottotron(maxNumber)
 
         const sequence1 = Array(maxNumber + 1).fill(null)
-          .map(() => lotto1.getNumber())
+          .map(() => lotto1.next())
 
         const sequence2 = Array(maxNumber + 1).fill(null)
-          .map(() => lotto2.getNumber())
+          .map(() => lotto2.next())
 
         assert.isFalse(sequence1.every((number, index) => {
           return sequence2[index] === number
@@ -162,15 +162,15 @@ describe('class Lottotron', () => {
     )
   })
 
-  describe('#restNumbers', () => {
+  describe('#rest', () => {
     it(`Should be an array.`,
       () => {
-        const { restNumbers } = new Lottotron(32)
-        assert.isArray(restNumbers)
+        const { rest } = new Lottotron(32)
+        assert.isArray(rest)
       }
     )
 
-    it('Should contain all numbers of the interval that were not returned from the method "getNumber".',
+    it('Should contain all numbers of the interval that were not returned from the method "next".',
       () => {
         const maxNumber = 5
         const lotto = new Lottotron(maxNumber)
@@ -179,11 +179,11 @@ describe('class Lottotron', () => {
           .map((value, index) => index)
 
         for (let i = 0; i <= maxNumber; i++) {
-          const { restNumbers } = lotto
+          const { rest } = lotto
 
-          assert.deepEqual(restNumbers, remainder)
+          assert.deepEqual(rest, remainder)
 
-          const number = lotto.getNumber()
+          const number = lotto.next()
           const index = remainder.findIndex((value) => value === number)
           remainder.splice(index, 1)
         }
@@ -197,9 +197,9 @@ describe('class Lottotron', () => {
         let counter = 0
 
         while (counter < maxNumber + 7) {
-          lotto.getNumber()
+          lotto.next()
           if (counter > maxNumber + 1) {
-            assert.isEmpty(lotto.restNumbers)
+            assert.isEmpty(lotto.rest)
           }
           counter++
         }
@@ -210,9 +210,9 @@ describe('class Lottotron', () => {
       () => {
         const lotto = new Lottotron(3)
 
-        const oldValue = lotto.restNumbers
-        lotto.restNumbers = Symbol('newValue')
-        assert(lotto.restNumbers !== oldValue)
+        const oldValue = lotto.rest
+        lotto.rest = Symbol('newValue')
+        assert(lotto.rest !== oldValue)
       }
     )
 
@@ -220,47 +220,47 @@ describe('class Lottotron', () => {
       () => {
         const lotto = new Lottotron(3)
 
-        const oldValue = lotto.restNumbers
-        lotto.restNumbers = Symbol('newValue')
-        assert.deepEqual(lotto.restNumbers, oldValue)
+        const oldValue = lotto.rest
+        lotto.rest = Symbol('newValue')
+        assert.deepEqual(lotto.rest, oldValue)
       }
     )
 
     it(`Should return the same result if the array returned in the previous call is changed.`,
       () => {
         const lotto = new Lottotron(13)
-        const { restNumbers } = lotto
-        const restNumbersCopy = restNumbers.map((item) => item)
-        restNumbers[6] = Symbol('someValue')
-        assert.deepEqual(lotto.restNumbers, restNumbersCopy)
+        const { rest } = lotto
+        const restCopy = rest.map((item) => item)
+        rest[6] = Symbol('someValue')
+        assert.deepEqual(lotto.rest, restCopy)
       }
     )
   })
 
   describe('#reload()', () => {
-    it(`The #restNumbers array should contain all numbers after that the #reload()was called.`,
+    it(`The #rest array should contain all numbers after that the #reload()was called.`,
       () => {
         const maxNumber = 9
         const lotto = new Lottotron(maxNumber)
-        const expectedRestNumbers = getNaturalNumbersTo(maxNumber)
+        const expectedRest = getNaturalNumbersTo(maxNumber)
 
-        while (lotto.restNumbers.length > 2) lotto.getNumber()
+        while (lotto.rest.length > 2) lotto.next()
         lotto.reload()
-        assert.deepEqual(lotto.restNumbers, expectedRestNumbers)
+        assert.deepEqual(lotto.rest, expectedRest)
       }
     )
 
-    it(`The #geNumber() method should return all numbers of the interval in (maxNumber + 1) method calls after that the #reload() method was called.`,
+    it(`The #next() method should return all numbers of the interval in (maxNumber + 1) method calls after that the #reload() method was called.`,
       () => {
         const maxNumber = 17
         const lotto = new Lottotron(maxNumber)
 
-        while (lotto.restNumbers.length > 0) lotto.getNumber()
+        while (lotto.rest.length > 0) lotto.next()
         lotto.reload()
 
         assert(
           Array(maxNumber + 1).fill(null)
-            .map(() => lotto.getNumber())
+            .map(() => lotto.next())
             .every((number, index, numberList) => numberList.includes(index))
         )
       }
