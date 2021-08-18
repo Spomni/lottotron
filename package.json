@@ -5,14 +5,12 @@
   "keywords": ["random", "integer", "unique"],
   "main": "index.js",
   "directories": {
-    "doc": "doc",
     "test": "test"
   },
   "scripts": {
     "test": "mocha --reporter progress",
     "prepublishOnly": "npm run standart && npm test",
-    "standart": "standart --fix --env mocha",
-    "generate-doc": "jsdoc lib/Lottotron.js -d docs/ -r README.md"
+    "standart": "standart --fix --env mocha"
   },
   "repository": {
     "type": "git",
@@ -26,12 +24,8 @@
   "homepage": "https://github.com/Spomni/lottotron#readme",
   "devDependencies": {
     "chai": "^4.1.2",
-    "jsdoc": "^3.6.6",
     "mocha": "^5.2.0",
     "standart": "^6.1.0"
-  },
-  "standart": {
-    "ignore": "docs/**/*"
   },
   "dependencies": {}
 }
