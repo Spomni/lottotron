@@ -314,6 +314,11 @@ describe('class Lottotron', () => {
       )
     })
 
-    it('Should add the argument value to the rest of numbers.')
+    it('Should add the argument value to the rest of numbers.', () => {
+      const number = 7
+      const lotto = new Lottotron(5)
+      lotto.put(number)
+      assert.include(lotto.rest, number)
+    })
   })
 })
