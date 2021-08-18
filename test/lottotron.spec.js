@@ -21,11 +21,11 @@ const arrayOfTypes = [
   NaN
 ]
 
-const ERROR_MSG_ = {
-  MAX_NUMBER_IS_NOT_NUMBER: 'The input option "maxNumber" should be a number.',
-  MAX_NUMBER_LOWER_ZERO: 'The input option "maxNumber" should be greater than 0.',
-  MAX_NUMBER_IS_NON_FINITE: 'The input option "maxNumber" should be a finite number.'
-}
+const {
+  MAX_NUMBER_IS_NOT_NUMBER,
+  MAX_NUMBER_LOWER_ZERO,
+  MAX_NUMBER_IS_NON_FINITE
+} = LottotronError.REASON_
 
 const isNumber = (value) => typeof(value) === 'number'
 
@@ -44,7 +44,7 @@ describe('class Lottotron', () => {
         assert.throws(
           () => new Lottotron(typeValue),
           LottotronError,
-          ERROR_MSG_.MAX_NUMBER_IS_NOT_NUMBER
+          MAX_NUMBER_IS_NOT_NUMBER
         )
       })
     )
@@ -57,7 +57,7 @@ describe('class Lottotron', () => {
         assert.throws(
           () => new Lottotron(typeValue),
           LottotronError,
-          ERROR_MSG_.MAX_NUMBER_IS_NON_FINITE
+          MAX_NUMBER_IS_NON_FINITE
         )
       })
     )
@@ -67,7 +67,7 @@ describe('class Lottotron', () => {
         assert.throws(
           () => new Lottotron(-5),
           LottotronError,
-          ERROR_MSG_.MAX_NUMBER_LOWER_ZERO
+          MAX_NUMBER_LOWER_ZERO
         )
       }
     )
