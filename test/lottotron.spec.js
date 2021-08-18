@@ -22,9 +22,16 @@ const arrayOfTypes = [
 ]
 
 const {
+
   MAX_IS_NOT_NUMBER,
   MAX_LOWER_ZERO,
-  MAX_IS_NON_FINITE
+  MAX_IS_NON_FINITE,
+  
+  NUMBER_IS_NOT_FINITE,
+  NUMBER_IS_NOT_INTEGER,
+  NUMBER_IS_NOT_POSITIVE,
+  NUMBER_IS_NOT_NUMBER,
+
 } = LottotronError.REASON_
 
 const isNumber = (value) => typeof(value) === 'number'
@@ -268,7 +275,34 @@ describe('class Lottotron', () => {
   })
   
   describe('#put()', () => {
-    it('Should throw an error if the argument is not positive integer.')
+    it('Should throw an error if the argument is not positive integer.', () => {
+      const lotto = new Lottotron(12)
+      
+      assert.throws(
+        () => lotto.put(null),
+        LottotronError,
+        NUMBER_IS_NOT_NUMBER
+      );
+      
+      assert.throws(
+        () => lotto.put(Infinity),
+        LottotronError,
+        NUMBER_IS_NOT_FINITE
+      );
+      
+      assert.throws(
+        () => lotto.put(-5),
+        LottotronError,
+        NUMBER_IS_NOT_POSITIVE
+      );
+      
+      assert.throws(
+        () => lotto.put(5.7),
+        LottotronError,
+        NUMBER_IS_NOT_INTEGER
+      );
+    })
+    
     it('Should throw an error if the rest of numbers already contains the argument value.')
     it('Should add the argument value to the rest of numbers.')
   })
