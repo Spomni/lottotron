@@ -112,7 +112,7 @@ describe('class Lottotron', () => {
     )
   })
 
-  describe('#getNumber()', () => {
+  describe('#next()', () => {
     it(`Should return all numbers of the interval in (max + 1) method calls.`,
       () => {
         const lotto = new Lottotron(8)
@@ -120,7 +120,7 @@ describe('class Lottotron', () => {
 
         assert(
           Array(max + 1).fill(null)
-            .map(() => lotto.getNumber())
+            .map(() => lotto.next())
             .every((number, index, numberList) => numberList.includes(index))
         )
       }
@@ -134,9 +134,9 @@ describe('class Lottotron', () => {
 
         while (counter < max + 5) {
           if (counter <= max + 1) {
-            lotto.getNumber()
+            lotto.next()
           } else {
-            assert.isNull(lotto.getNumber())
+            assert.isNull(lotto.next())
           }
           counter++
         }
@@ -150,10 +150,10 @@ describe('class Lottotron', () => {
         const lotto2 = new Lottotron(maxNumber)
 
         const sequence1 = Array(maxNumber + 1).fill(null)
-          .map(() => lotto1.getNumber())
+          .map(() => lotto1.next())
 
         const sequence2 = Array(maxNumber + 1).fill(null)
-          .map(() => lotto2.getNumber())
+          .map(() => lotto2.next())
 
         assert.isFalse(sequence1.every((number, index) => {
           return sequence2[index] === number
@@ -170,7 +170,7 @@ describe('class Lottotron', () => {
       }
     )
 
-    it('Should contain all numbers of the interval that were not returned from the method "getNumber".',
+    it('Should contain all numbers of the interval that were not returned from the method "next".',
       () => {
         const maxNumber = 5
         const lotto = new Lottotron(maxNumber)
@@ -183,7 +183,7 @@ describe('class Lottotron', () => {
 
           assert.deepEqual(restNumbers, remainder)
 
-          const number = lotto.getNumber()
+          const number = lotto.next()
           const index = remainder.findIndex((value) => value === number)
           remainder.splice(index, 1)
         }
@@ -197,7 +197,7 @@ describe('class Lottotron', () => {
         let counter = 0
 
         while (counter < maxNumber + 7) {
-          lotto.getNumber()
+          lotto.next()
           if (counter > maxNumber + 1) {
             assert.isEmpty(lotto.restNumbers)
           }
@@ -244,23 +244,23 @@ describe('class Lottotron', () => {
         const lotto = new Lottotron(maxNumber)
         const expectedRestNumbers = getNaturalNumbersTo(maxNumber)
 
-        while (lotto.restNumbers.length > 2) lotto.getNumber()
+        while (lotto.restNumbers.length > 2) lotto.next()
         lotto.reload()
         assert.deepEqual(lotto.restNumbers, expectedRestNumbers)
       }
     )
 
-    it(`The #geNumber() method should return all numbers of the interval in (maxNumber + 1) method calls after that the #reload() method was called.`,
+    it(`The #next() method should return all numbers of the interval in (maxNumber + 1) method calls after that the #reload() method was called.`,
       () => {
         const maxNumber = 17
         const lotto = new Lottotron(maxNumber)
 
-        while (lotto.restNumbers.length > 0) lotto.getNumber()
+        while (lotto.restNumbers.length > 0) lotto.next()
         lotto.reload()
 
         assert(
           Array(maxNumber + 1).fill(null)
-            .map(() => lotto.getNumber())
+            .map(() => lotto.next())
             .every((number, index, numberList) => numberList.includes(index))
         )
       }
