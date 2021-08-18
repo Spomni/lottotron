@@ -6,34 +6,41 @@ The instance returns integers from 0 to the user-defined value.
 ## How to use
 
 Install **`lottotron`**.
-
-    npm install @spomni/lottotron
+```javascript
+npm install @spomni/lottotron
+```
 
 Add a constructor into your script.
-
-    const Lottotron = require('@spomni/lottotron')
+```javascript
+const Lottotron = require('@spomni/lottotron')
+```
 
 Create an instance of the class `Lottotron( max )` passing the max value as option.
-
-    let lotto = new Lottotron( 9 );
+```javascript
+let lotto = new Lottotron( 9 );
+```
 
 Call the method `#next()` to get the next number.
 
-    let number = lotto.next();
-
 The method `#next()` returns the next number until all numbers of the inteval are returned. It returns `null` when all numbers have been returned.
+```javascript
+let number = lotto.next();
+```
 
 If you need to get numbers again use the method `#reload()`. It rallback an onstance to the inital state.
-
-    lotto.reload();
+```javascript
+lotto.reload();
+```
 
 The property `#max` contains a max number of the interval.
-
-    let max = lotto.max;
+```javascript
+let max = lotto.max;
+```
 
 The property `#rest` contains all numbers that were not returned from the method `#next()`.
-
-    let notReturnedNumbers = lotto.rest;
+```javascript
+let notReturnedNumbers = lotto.rest;
+```
 
 If you get a number from the `#next()` method and you want to use them later call the `put(number)` method. This method add the passed number to the rest of numbers.
 
