@@ -31,6 +31,8 @@ const {
   NUMBER_IS_NOT_INTEGER,
   NUMBER_IS_NOT_POSITIVE,
   NUMBER_IS_NOT_NUMBER,
+  
+  NUMBER_IS_ALREADY_EXISTS,
 
 } = LottotronError.REASON_
 
@@ -303,7 +305,15 @@ describe('class Lottotron', () => {
       );
     })
     
-    it('Should throw an error if the rest of numbers already contains the argument value.')
+    it('Should throw an error if the rest of numbers already contains the argument value.', () => {
+      const lotto = new Lottotron(3)
+      assert.throws(
+        () => lotto.put(2),
+        LottotronError,
+        NUMBER_IS_ALREADY_EXISTS,
+      )
+    })
+
     it('Should add the argument value to the rest of numbers.')
   })
 })
