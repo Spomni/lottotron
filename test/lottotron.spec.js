@@ -25,12 +25,8 @@ const {
 
   MAX_IS_NOT_POSITIVE_FINITE_NUMBER,
 
-  NUMBER_IS_NOT_FINITE,
-  NUMBER_IS_NOT_INTEGER,
-  NUMBER_IS_NOT_POSITIVE,
-  NUMBER_IS_NOT_NUMBER,
+  NUMBER_IS_NOT_POSITIVE_FINITE_INTEGER,
   NUMBER_IS_GREATER_THAN_MAX,
-  
   NUMBER_IS_ALREADY_EXISTS,
 
 } = LottotronError.REASON_
@@ -46,7 +42,7 @@ const getNaturalNumbersTo = (maxNumber) => {
 describe('class Lottotron', () => {
 
   describe('constructor(max)', () => {
-  
+
     it('Should throw an error if the "max" option is not a number.',
       () => arrayOfTypes.forEach((typeValue) => {
         if (isNumber(typeValue)) return
@@ -278,31 +274,31 @@ describe('class Lottotron', () => {
   })
   
   describe('#put()', () => {
-    it('Should throw an error if the argument is not positive integer.', () => {
+    it('Should throw an error if the argument is not positive finite integer.', () => {
       const lotto = new Lottotron(12)
       
       assert.throws(
         () => lotto.put(null),
         LottotronError,
-        NUMBER_IS_NOT_NUMBER
+        NUMBER_IS_NOT_POSITIVE_FINITE_INTEGER
       );
       
       assert.throws(
         () => lotto.put(Infinity),
         LottotronError,
-        NUMBER_IS_NOT_FINITE
+        NUMBER_IS_NOT_POSITIVE_FINITE_INTEGER
       );
       
       assert.throws(
         () => lotto.put(-5),
         LottotronError,
-        NUMBER_IS_NOT_POSITIVE
+        NUMBER_IS_NOT_POSITIVE_FINITE_INTEGER
       );
       
       assert.throws(
         () => lotto.put(5.7),
         LottotronError,
-        NUMBER_IS_NOT_INTEGER
+        NUMBER_IS_NOT_POSITIVE_FINITE_INTEGER
       );
     })
     
