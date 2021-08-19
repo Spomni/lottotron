@@ -23,10 +23,8 @@ const arrayOfTypes = [
 
 const {
 
-  MAX_IS_NOT_NUMBER,
-  MAX_LOWER_ZERO,
-  MAX_IS_NON_FINITE,
-  
+  MAX_IS_NOT_POSITIVE_FINITE_NUMBER,
+
   NUMBER_IS_NOT_FINITE,
   NUMBER_IS_NOT_INTEGER,
   NUMBER_IS_NOT_POSITIVE,
@@ -46,7 +44,9 @@ const getNaturalNumbersTo = (maxNumber) => {
 }
 
 describe('class Lottotron', () => {
+
   describe('constructor(max)', () => {
+  
     it('Should throw an error if the "max" option is not a number.',
       () => arrayOfTypes.forEach((typeValue) => {
         if (isNumber(typeValue)) return
@@ -54,7 +54,7 @@ describe('class Lottotron', () => {
         assert.throws(
           () => new Lottotron(typeValue),
           LottotronError,
-          MAX_IS_NOT_NUMBER
+          MAX_IS_NOT_POSITIVE_FINITE_NUMBER
         )
       })
     )
@@ -67,7 +67,7 @@ describe('class Lottotron', () => {
         assert.throws(
           () => new Lottotron(typeValue),
           LottotronError,
-          MAX_IS_NON_FINITE
+          MAX_IS_NOT_POSITIVE_FINITE_NUMBER
         )
       })
     )
@@ -77,7 +77,7 @@ describe('class Lottotron', () => {
         assert.throws(
           () => new Lottotron(-5),
           LottotronError,
-          MAX_LOWER_ZERO
+          MAX_IS_NOT_POSITIVE_FINITE_NUMBER
         )
       }
     )
